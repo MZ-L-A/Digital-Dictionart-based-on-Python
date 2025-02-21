@@ -1,2 +1,3 @@
-# Digital-Dictionart-based-on-Python
+# Digital-Dictionary-based-on-Python
 This is a digital dictionary on python.
+The 
