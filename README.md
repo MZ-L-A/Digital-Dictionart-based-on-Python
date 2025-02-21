@@ -6,7 +6,7 @@ A bilingual dictionary application with GUI and CLI interfaces, implementing wor
 - **Launch GUI Version**
   `python3 gui.py`
 - **Launch CLI Version**
-  `python3 cli.py
+  `python3 cli.py`
 ## GUI Instructions
 - **Search box supports**:
   - Direct word input + Enter/Search button
@@ -18,6 +18,7 @@ A bilingual dictionary application with GUI and CLI interfaces, implementing wor
   - Regular text: Definitions
 ## CLI Instruions
   At the ":" prompt：
+  |prompt|to do|
   |:-:|:-:|
   |`f:word`|Lookup word|
   |`c:word`|Get corrections|
