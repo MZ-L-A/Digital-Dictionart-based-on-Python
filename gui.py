@@ -1,13 +1,11 @@
 import tkinter as tk, lookup as lk
-from algorithm import trie, correct as corr
+from algorithm import prefix, correct as corr
 bg="#FFFFCC"
+bg_deep="#FFFFAA"
 fg="#000000"
 fg_link="#444444"
 
-t=trie()
-find_table=lk.get_what_to_find()
-for i in find_table:
-    t.insert(i)
+t=prefix(lk.get_what_to_find())
 
 cor=corr(lk.dic)
 
@@ -20,21 +18,33 @@ searcher=tk.Frame(main, bg=bg)
 searcher.pack(side='top', fill='x')
 searcher_sub=tk.Frame(searcher, bg=bg)
 searcher_sub.pack(side='top', fill='x')
-btn_search=tk.Button(searcher_sub, text="Search", bg="#FFFFAA", font=(None, 17, "bold"))
-btn_correct=tk.Button(searcher_sub, text="Correct", bg="#FFFFAA", font=(None, 17, "bold"))
+btn_search=tk.Button(searcher_sub, text="search", bg=bg_deep, font=(None, 17, "bold"))
+btn_correct=tk.Button(searcher_sub, text="correct", bg=bg_deep,  font=(None, 17, "bold"))
 btn_correct.pack(side='right')
 btn_search.pack(side='right')
 inputer=tk.Entry(searcher_sub, bg="#FFFFAA", font=(None, 17, "bold"))
 inputer.pack(side='right', expand=1, fill='both')
 
 controls=[]
-def lookup(word):
-    print(word)
+history=[]
+def lookup(word, backed=False):
     tab.pack_forget()
     root.focus_set()
     for i in controls:
         i.destroy()
     result=lk.lookup_format(word)
+    if not backed:
+        history.append(word)
+    if len(history)>1:
+        def back(word):
+            def f(word):
+                print(history)
+                history.pop()
+                lookup(word, True)
+            return lambda:f("".join(word[:]))
+        controls.append(tk.Button(main, text="return to \""+history[-2]+"\"", bg=bg, font=(None, 15, "bold"), command=back(history[-2])))
+        controls[-1].pack(side='right', anchor='ne')
+    
     for i in result:
         controls.append(tk.Frame(main, bg=bg))
         controls[-1].pack(side='top', anchor='w')
@@ -81,7 +91,15 @@ def show_tab(e):
             q=t.query(inputer.get())
         for i in q:
             tab.insert("end", i)
-inputer.bind("<KeyRelease>", show_tab)
+tab.call_count=0
+def show_tab_timer(e):
+    def call(e, t):
+        if tab.call_count==t:
+            show_tab(e)
+    
+    tab.call_count+=1
+    root.after(4, call, e, tab.call_count)
+inputer.bind("<KeyRelease>", show_tab_timer)
 
 def ondoubleclick(*args):
     sel=tab.get(tab.curselection())
