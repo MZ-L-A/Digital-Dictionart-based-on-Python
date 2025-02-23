@@ -24,9 +24,10 @@ if __name__=="__main__":
             q=cor.query(s, word_limit=20, edit_limit=0.4)
             if len(q)>=40:
                 print("too many (%d) results to show."%len(q))
-            if len(q)==0:
+            elif len(q)==0:
                 print("no result.")
-            print("correct")
+            else:
+                print("correct")
             for i in q:
                 print("  "+i)
         if c=="p":
