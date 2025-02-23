@@ -1,58 +1,27 @@
 import heapq as hp
-class trie:
-    class node:
-        def __init__(self, group, fa, id):
-            self.group=group
-            self.father=fa
-            self.children={}
-            self.char=" "
-            self.id=id
-            self.color=False
-        def insert(self, stri):
-            self.char=stri[0]
-            if len(stri)==1:
-                self.color=True
-                return None
-            else:
-                if self.children.get(stri[1], -1)==-1:
-                    self.group.append(trie.node(self.group, self.id, len(self.group)))
-                    self.children[stri[1]]=len(self.group)-1
-                self.group[self.children[stri[1]]].insert(stri[1:])
-        def query(self, pre):
-            ret=[]
-            for i in self.children:
-                ret.append(self.group[self.children[i]].query(pre+self.char))
-            if self.color:
-                ret.append(pre+self.char)
-            return ret
-        def query_pre(self, pre, deep):
-            if deep==len(pre):
-                data=self.query(pre[:-1])
-                ret=[]
-                def process_data(data):#展开嵌套列表
-                    nonlocal ret
-                    for i in data:
-                        if isinstance(i, str):
-                            ret.append(i)
-                        else:
-                            process_data(i)
-                process_data(data)
-                ret.sort(key=lambda x:"B"+x if " " in x else "A"+x)
-                return ret
-            else:
-                if pre[deep] in self.children:
-                    return self.group[self.children[pre[deep]]].query_pre(pre, deep+1)
-                else:
-                    return []
-            
-        
-    def __init__(self):
-        self.group=[]
-        self.group.append(trie.node(self.group, -1, 0))
-    def insert(self, stri):
-        self.group[0].insert(" "+stri)
-    def query(self, pre):
-        return self.group[0].query_pre(pre, 0)
+def search(item, table):
+    p, step=0, len(table)>>1
+    while step>0:
+        if p+step<len(table) and table[p+step]<=item:
+            p+=step
+        else:
+            step=step>>1
+    return p
+class prefix:
+    def __init__(self, words=[]):
+        self.words=sorted(words)
+    def query(self, pre, b=None):
+        p=pre
+        q=b
+        if b==None:
+            q=pre+"~"
+        return self.query_area(p, q)
+    def query_area(self, p, q):
+        r=search(p, self.words)
+        s=search(q, self.words)
+        return sorted(self.words[r+(self.words[r]!=p):s+1], key=lambda x:(int(" " in x), x))
+    
+
 class correct:
     class word:
         def __init__(self, word, distance):
