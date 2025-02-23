@@ -36,12 +36,13 @@ python3 cli.py
 ```
 #### Interactive Commands:
 
-|Command|Action|Example|
-|:-:|:-:|:-:|
-|f:word|Lookup word definition|f:dictionary|
-|c:word|Get spelling suggestions|c:dictiomary|
-|p:prefix|Search words by prefix|p:dict|
-|e:|Exit the program|e:|
+| Command      | Action                    | Example           |
+|-------------|---------------------------|-------------------|
+| f:word      | Lookup word definition    | f:dictionary      |
+| c:word      | Get spelling suggestions  | c:dictiomary      |
+| p:prefix    | Search words by prefix    | p:dict            |
+| p:start-end | Search words in range     | p:a-z             |
+| e:          | Exit the program          | e:                |
 ## Requirements
 - Python **3.6+**
 - Standard Libraries:
