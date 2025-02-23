@@ -1,11 +1,8 @@
 if __name__=="__main__":
     import lookup as lk, os
     from sys import platform
-    from algorithm import trie, correct
-    t=trie()
-    for i in lk.dic:
-        t.insert(i)
-
+    from algorithm import prefix, correct
+    t=prefix(lk.dic)
     cor=correct(lk.dic)
     if platform in ["nt", "win32"]:
         os.system("cls")
@@ -33,7 +30,10 @@ if __name__=="__main__":
             for i in q:
                 print("  "+i)
         if c=="p":
-            q=t.query(s) 
+            if "-" in s:
+                q=t.query_area(s.split("-")[0], s.split("-")[1])
+            else:
+                q=t.query(s) 
             if len(q)>=160:
                 print("too many (%d) results to show."%len(q))
                 continue
