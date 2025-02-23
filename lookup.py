@@ -51,7 +51,7 @@ def main():
 def lookup_cui(word):
     if not word in dic:
         if not word in phrase:
-            print("the word %s not found."%word)
+            print("\"%s\" not found."%word)
             return None
         print("%s(from %s)"%(word, source[word]))
         print("  phr.", phrase[word])
@@ -85,4 +85,5 @@ def get_what_to_find():
     return x
 if __name__=="__main__":
     main()
+
 
